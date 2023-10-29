@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signed Magnitude Addition Calculator</title>
+    <script>
+        function performAddition() {
+            var binary1 = document.getElementById("inputField1").value;
+            var binary2 = document.getElementById("inputField2").value;
+            if (!isValidBinary(binary1) || !isValidBinary(binary2)) {
+                document.getElementById("resultField").value = "Invalid input. Please enter valid binary numbers.";
+                return;
+            }
+            var result = binaryAddition(binary1, binary2);
+            document.getElementById("resultField").value = result;
+        }
+
+        function isValidBinary(binary) {
+            return /^[01]+$/.test(binary);
+        }
+
+        function binaryAddition(binary1, binary2) {
+            var n = binary1.length;
+            var m = binary2.length;
+            var maxLength = Math.max(n, m);
+            var carry = 0;
+            var result = '';
+            for (var i = 0; i < maxLength; i++) {
+                var bit1 = i < n ? parseInt(binary1.charAt(n - i - 1)) : 0;
+                var bit2 = i < m ? parseInt(binary2.charAt(m - i - 1)) : 0;
+                var sum = bit1 + bit2 + carry;
+                result = (sum % 2) + result;
+                carry = Math.floor(sum / 2);
+            }
+            if (carry !== 0) {
+                result = carry + result;
+            }
+            return result;
+        }
+    </script>
+</head>
+<body>
+    <h2>Addition Calculator</h2>
+    <label for="inputField1">Input 1 (Binary):</label>
+    <input type="text" id="inputField1"><br><br>
+    <label for="inputField2">Input 2 (Binary):</label>
+    <input type="text" id="inputField2"><br><br>
+    <button onclick="performAddition()">Add</button><br><br>
+    <label for="resultField">Result (Binary):</label>
+    <input type="text" id="resultField" readonly><br><br>
+</body>
+</html>
